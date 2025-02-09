@@ -1,0 +1,108 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <!--公司域名.实际项目example-->
+    <groupId>com.shimh.example</groupId>
+    <!--模块名-->
+    <artifactId>example</artifactId>
+    <version>${revision}</version>
+    <packaging>pom</packaging>
+
+    <name>example</name>
+    <description>maven多模块项目模板</description>
+
+
+
+    <properties>
+
+
+        <!--全局版本号-->
+        <revision>1.0.0</revision>
+
+        <jdk.version>1.8</jdk.version>
+
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <maven.test.skip>true</maven.test.skip>
+
+        <maven.compiler.source>${jdk.version}</maven.compiler.source>
+        <maven.compiler.target>${jdk.version}</maven.compiler.target>
+
+    </properties>
+
+
+
+    <build>
+        <plugins>
+            <plugin>
+                <!--maven官方插件可以省略groupId org.apache.maven.plugins-->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <!--<version></version>-->
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+            <!--https://www.mojohaus.org/flatten-maven-plugin/-->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+                <version>1.6.0</version>
+                <!--插件的配置项-->
+                <configuration>
+                    <updatePomFile>true</updatePomFile>
+                    <!--https://maven.apache.org/guides/mini/guide-maven-ci-friendly.html-->
+                    <!--只解析revision-->
+                    <flattenMode>resolveCiFriendliesOnly</flattenMode>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>flatten</id>
+                        <!--maven生命周期的阶段-->
+                        <phase>process-resources</phase>
+                        <!--插件的目标-->
+                        <goals>
+                            <goal>flatten</goal>
+                        </goals>
+                        <!--插件的单个任务配置项-->
+                        <!--<configuration></configuration>-->
+                    </execution>
+                    <execution>
+                        <id>flatten.clean</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <!--部署到远程仓库-->
+    <!--如果仓库需要认证的话，在setting.xml配置server，id保持一致-->
+    <!--<servers>-->
+        <!--<server>-->
+            <!--<id>mycompany-repository</id>-->
+            <!--<username>jvanzyl</username>-->
+            <!--&lt;!&ndash; Default value is ~/.ssh/id_dsa &ndash;&gt;-->
+            <!--<privateKey>/path/to/identity</privateKey> (default is ~/.ssh/id_dsa)-->
+            <!--<passphrase>my_key_passphrase</passphrase>-->
+        <!--</server>-->
+    <!--</servers>-->
+    <distributionManagement>
+        <!--发布版本仓库-->
+        <repository>
+            <id>mycompany-repository</id>
+            <name>MyCompany Repository</name>
+            <url>scp://repository.mycompany.com/repository/maven2</url>
+        </repository>
+        <!--快照版本仓库-->
+        <!--<snapshotRepository></snapshotRepository>-->
+    </distributionManagement>
+
+
+</project>
