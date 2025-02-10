@@ -25,3 +25,13 @@ https://maven.apache.org/users/index.html
 | install   | install:install   | 内容9   |
 | deploy   | deploy:deploy   | 内容9   |
 
+
+
+## 依赖处理
+
+### 排除依赖
+* 排除依赖应该在直接引入该依赖的地方进行，也就是在子模块的dependencies中排除。如果在父POM的dependencyManagement里排除，可能会影响到所有子模块，导致不必要的排除，特别是当某些子模块确实需要那个传递性依赖的时候。
+
+### 日志
+
+* 

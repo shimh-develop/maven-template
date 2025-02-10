@@ -7,12 +7,17 @@
     <!--模块名-->
     <artifactId>example</artifactId>
     <version>${revision}</version>
+
     <packaging>pom</packaging>
 
     <name>example</name>
     <description>maven多模块项目模板</description>
 
-
+    <modules>
+        <module>example-core</module>
+        <module>example-service</module>
+        <module>example-bom</module>
+    </modules>
 
     <properties>
 
@@ -21,7 +26,7 @@
         <revision>1.0.0</revision>
 
         <jdk.version>1.8</jdk.version>
-
+        <!--processes 文本文件指定编码-->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <maven.test.skip>true</maven.test.skip>
@@ -50,9 +55,11 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>flatten-maven-plugin</artifactId>
-                <version>1.6.0</version>
+                <!--<version>1.6.0</version>-->
+                <version>1.4.1</version>
                 <!--插件的配置项-->
                 <configuration>
+                    <!--使用.flattened-pom.xml到仓库-->
                     <updatePomFile>true</updatePomFile>
                     <!--https://maven.apache.org/guides/mini/guide-maven-ci-friendly.html-->
                     <!--只解析revision-->
@@ -78,6 +85,11 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.8.1</version>
             </plugin>
         </plugins>
     </build>
